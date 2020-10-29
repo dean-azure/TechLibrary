@@ -1,0 +1,89 @@
+<div class="container main">
+  <form #form="ngForm">
+
+    <table style="width:90%; margin-top:50px;">
+      <tr>
+        <td style="vertical-align: top" colspan="2">
+          <h2>Book Search</h2>
+        </td>
+      </tr>
+      <tr>
+        <td style="vertical-align: top;" colspan="2">
+          <div style="margin: 20px 0px 20px;">
+            <table><tr>
+              <td><h4>Search</h4></td>
+              <td>
+                <input style="width:500px" id="searchString" name="searchString" class="form-control" [(ngModel)]="searchResponse.searchString" />
+              </td>
+            </tr>
+          </table>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="vertical-align: top;margin-right:75px;">
+          <table>
+            <thead>
+              <td style="width:100%; text-align:center;" colspan="3">Categories</td>
+            </thead>
+            <tr *ngFor='let category of searchResponse.categories'>
+              <td style="width: 100px; text-align:left">{{category.categoryName}}</td>
+              <td style="width: 35px; text-align:center">{{category.count}}</td>
+              <td style="text-align:left">
+                <input type="checkbox" [(ngModel)]="category.selected" id="selected" name="selected" class="form-control" />
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style = "padding-left:25px; border-left: 1px black solid;vertical-align: top;">
+          <table class="searchResults">
+            <thead>
+              <td class="td1">Title</td>
+              <td class="td2">Published</td>
+              <td class="td3">Description</td>
+              <td class="td4">&nbsp;</td>
+              <td class="td5">&nbsp;</td>
+            </thead>
+            <tr style="height: 50px; border-bottom: 1px solid black;" *ngFor='let book of searchResponse.books'>
+              <td class="td1">{{book.title}}</td>
+                <td class="td2">{{book.formattedPublishedDateString}}</td>
+                <td class="td3"> <div *ngIf="book.shortDescr" title="{{book.shortDescr}}" >{{book.shortDescr}}</div> </td>
+                <td class="td4">
+                  <a [routerLink]="[book.id]">View</a>
+                </td>
+
+                <td class="td5" *ngIf="book.amazonLink != null && book.amazonLink.length > 0">
+                  <a  href="{{book.amazonLink}}" target="{{book.isbn}}" >Search Amazon</a>
+                </td>
+                <td class="td5" *ngIf="book.amazonLink == null || book.amazonLink.length == 0">
+                  &nbsp;
+                </td>
+
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td style="vertical-align: baseline; padding:20px 0px 0px 20px" >
+          <table>
+            <tr>
+              <td *ngIf="searchResponse.pageNumbers.length > searchResponse.pages" style=" font-weight:bold; padding: 0px 8px 0px 8px;">
+                <a class="btn btn-primary"  (click)="navigate(1)" >First</a>
+              </td>
+              <td style=" font-weight:bold; padding: 0px 8px 0px 8px;" *ngFor="let pageNumber of searchResponse.pageNumbers">
+                <a class="btn btn-primary"  (click)="navigate(pageNumber)" >{{pageNumber}}</a>
+              </td>
+              <td *ngIf="searchResponse.pageNumbers.length > searchResponse.pages" style=" font-weight:bold; padding: 0px 8px 0px 8px;" >
+                <a class="btn btn-primary"  (click)="navigate(1)" >Last</a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <div style="color:red; font-weight: bolder;" *ngIf="errorMessage">{{errorMessage}}</div>
+    <div style="color:red; font-weight: bolder;" >{{searchResponse.searchString}}</div>
+
+  </form>
+</div>

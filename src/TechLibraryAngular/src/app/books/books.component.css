@@ -1,0 +1,59 @@
+
+div.main {
+  width: 80%;
+  margin-left:10px;
+}
+
+table.searchResults {
+  width:100%;
+
+}
+table.searchResults thead td{
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 24px;
+  word-spacing: 2px;
+  color: #000000;
+  font-weight: 700;
+  font-variant: small-caps;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+table.searchResults td {
+  vertical-align: text-top;
+  padding-left:20px;
+  padding-right:20px;
+  overflow: hidden;
+}
+
+table.searchResults td {
+  padding-bottom:10px;
+  padding-top:5px;
+  border-bottom: 1px solid black;
+}
+
+table.searchResults td.td1 {
+  width:150px;
+}
+
+table.searchResults td.td2 {
+  width:75px;
+}
+
+table.searchResults td.td3 {
+  width:400px;
+}
+
+table.searchResults td.td4 {
+  width:70px;
+}
+table.searchResults td.td5 {
+  width:100px;
+}
+
+table.searchResults td.td3 div {
+  height: 50px; overflow-x:auto
+}
+
+a:hover {
+  cursor: pointer;
+}
