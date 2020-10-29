@@ -9,5 +9,6 @@ namespace TechLibrary.Interfaces
         Task<Book> AddBook(BookRequest newBook);
         Task<Book> EditBook(BookRequest editBook);
         Task<Book> GetBookByIdAsync(int bookid);
+        Task DeleteBook(int bookId);
     }
 }

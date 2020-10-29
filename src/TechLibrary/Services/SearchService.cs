@@ -108,7 +108,7 @@ namespace TechLibrary.Services
                 SearchString=searchRequest.SearchString
             };
 
-            searchResponse.Categoryies = bookCategories.GroupBy(bc => bc.CategoryId)
+            searchResponse.Categories = bookCategories.GroupBy(bc => bc.CategoryId)
                 .Select(grp =>
                     new CategorySearchResponse()
                     {
@@ -141,7 +141,7 @@ namespace TechLibrary.Services
                 SearchString = searchRequest.SearchString
             };
 
-            searchResponse.Categoryies = books.SelectMany(b => b.BookCategories).GroupBy(bc => bc.CategoryId)
+            searchResponse.Categories = books.SelectMany(b => b.BookCategories).GroupBy(bc => bc.CategoryId)
                 .Select(grp =>
                     new CategorySearchResponse()
                     {

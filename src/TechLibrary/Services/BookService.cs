@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TechLibrary.Contracts.Requests;
+using TechLibrary.Contracts.Responses;
 using TechLibrary.Data;
 using TechLibrary.Domain;
 using TechLibrary.Interfaces;
@@ -42,22 +46,45 @@ namespace TechLibrary.Services
             }
 
             var result = await _dataContext.Books.AddAsync(book);
-            var saveResult = await _dataContext.SaveChangesAsync();
+            await _dataContext.SaveChangesAsync();
 
             return await GetBookByIdAsync(result.Entity.BookId.Value);
-
         }
 
         public async Task<Book> EditBook(BookRequest editBook)
         {
-            var book = _mapper.Map<Book>(editBook);
+            var book = await _dataContext.Books.Where(b => b.BookId == editBook.Id.Value).FirstOrDefaultAsync();
+            book.BookId = editBook.Id;
+            book.ISBN = editBook.ISBN;
+            book.LongDescr = editBook.LongDescr;
+            book.PublishedDate = editBook.PublishedDate;
+            book.ShortDescr = editBook.ShortDescr;
+            book.ThumbnailUrl = editBook.ThumbnailUrl;
+            book.Title = editBook.Title;
+
             if (editBook?.Categories.Length > 0)
             {
                 book.BookCategories = editBook?.Categories.Select(catId => new BookCategory() { CategoryId = catId, Book = book }).ToArray();
             }
-            var result = _dataContext.Books.Update(book);
-            var saveResult = await _dataContext.SaveChangesAsync();
+
+            _dataContext.Books.Update(book);
+            await _dataContext.SaveChangesAsync();
+
             return await GetBookByIdAsync(editBook.Id.Value);
+        }
+
+        public async Task DeleteBook(int bookId)
+        {
+            BookEditResponse editResponse = new BookEditResponse();
+
+            var book = await GetBookByIdAsync(bookId);
+            if (book != null)
+            {
+                book.Deleted = 1;
+                var deleteResult = _dataContext.Books.Update(book);
+                var deleteSaveResult = await _dataContext.SaveChangesAsync();
+            }
+
         }
 
 

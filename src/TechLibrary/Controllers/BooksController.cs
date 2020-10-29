@@ -9,6 +9,8 @@ using TechLibrary.Interfaces;
 using TechLibrary.Contracts.Requests;
 using System.Linq;
 using TechLibrary.Contracts.Responses;
+using System.Net;
+using System;
 
 namespace TechLibrary.Controllers
 {
@@ -68,7 +70,7 @@ namespace TechLibrary.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
             _logger.LogInformation($"Get book by id {id}");
 
@@ -80,5 +82,68 @@ namespace TechLibrary.Controllers
 
             return Ok(bookResponse);
         }
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBook([FromRoute] int id)
+        {
+            try
+            {
+                _logger.LogInformation($"Delete book by id {id}");
+
+                await _bookService.DeleteBook(id);
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, new BookEditResponse() { ErrorMessage = ex.Message });
+            }
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddBook([FromBody] BookRequest bookRequst)
+        {
+            try
+            {
+                _logger.LogInformation($"Add book");
+
+                var newBook = await _bookService.AddBook(bookRequst);
+
+                return StatusCode((int)HttpStatusCode.Created,  _mapper.Map<BookEditResponse>(newBook));
+            }
+            catch (Exception ex)
+            {
+                var response = _mapper.Map<BookEditResponse>(bookRequst);
+                response.ErrorMessage = ex.Message;
+                return StatusCode((int)HttpStatusCode.BadRequest, response);
+            }
+        }
+
+        [HttpPut("id")]
+        public async Task<IActionResult> EditBook([FromRoute] int id, [FromBody] BookRequest bookRequst)
+        {
+            if (id != bookRequst.Id.Value)
+            {
+                return BadRequest(new BookEditResponse() { ErrorMessage = "The book id does not match the route's id" });
+            }
+
+            try
+            {
+                _logger.LogInformation($"Add book");
+
+                var editedBook = await _bookService.EditBook(bookRequst);
+
+                return StatusCode((int)HttpStatusCode.Accepted, _mapper.Map<BookEditResponse>(editedBook));
+            }
+            catch (Exception ex)
+            {
+                var response = _mapper.Map<BookEditResponse>(bookRequst);
+                response.ErrorMessage = ex.Message;
+                return StatusCode((int)HttpStatusCode.BadRequest, response);
+            }
+        }
+
     }
 }

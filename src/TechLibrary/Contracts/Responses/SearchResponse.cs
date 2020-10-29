@@ -13,7 +13,7 @@ namespace TechLibrary.Contracts.Responses
         int _recordsPerPage = 10;
 
 
-        public string SearchString { get; set; }
+        public string SearchString { get; set; } = "";
 
         public int Page
         {
@@ -66,7 +66,7 @@ namespace TechLibrary.Contracts.Responses
                 pageNumbers.Add(Page);
 
                 pageNumbers.Sort();
-                return pageNumbers.Where(x => x <= Page && x >= 1).Distinct().ToArray();
+                return pageNumbers.Where(x => x <= Pages && x >= 1).Distinct().ToArray();
             }
         }
 
@@ -94,7 +94,7 @@ namespace TechLibrary.Contracts.Responses
 
 
 
-        public CategorySearchResponse[] Categoryies { get; set; }
+        public CategorySearchResponse[] Categories { get; set; }
         public BookSearchResponse[] Books { get; set; }
 
 

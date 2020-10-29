@@ -12,7 +12,7 @@ namespace TechLibrary.Contracts.Requests
         int _page = 1;
         int _recordsPerPage = 10;
 
-        public string SearchString { get; set; }
+        public string SearchString { get; set; } = "";
         public CategorySearchResponse[] Categories { get; set; } = new CategorySearchResponse[0];
 
         public int Page 

@@ -8,6 +8,10 @@ using TechLibrary.Interfaces;
 
 namespace TechLibrary.Contracts.Responses
 {
+
+    /// <summary>
+    /// Returned when the result is a list of books found from a search
+    /// </summary>
     public class BookSearchResponse
     {
         string _amazonLink;

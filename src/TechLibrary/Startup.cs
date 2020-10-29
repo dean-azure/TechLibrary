@@ -42,12 +42,15 @@ namespace TechLibrary
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",
-                builder =>
-                {
-                    builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
-                });
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()
+                            .WithOrigins(new string[] { "https://localhost:4000", "http://localhost:4000" })
+                            .SetIsOriginAllowed((host) => true);
+                    });
             });
-            
+
+
             services.AddControllers();
 
             services.AddAutoMapperConfig();
@@ -69,17 +72,19 @@ namespace TechLibrary
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
-            app.UseCors("AllowAll");
+            app.UseCors("AllowAll"); // second
 
+            app.UseHttpsRedirection();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
         }
 
 
