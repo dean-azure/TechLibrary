@@ -37,7 +37,7 @@ namespace TechLibrary.Services
                 searchRequest.RecordsPerPage = searchRequest.RecordsPerPage;
             }
 
-            var categoryIdSearch = searchRequest.Categories.Where(x => x.Selected).Select(x=> x.Id).ToArray();
+            var categoryIdSearch = searchRequest.Categories.Where(x => x.Selected).Select(x=> x.Id.Value).ToArray();
 
             if (!string.IsNullOrWhiteSpace(searchRequest.SearchString) && categoryIdSearch.Count() > 0)
             {
@@ -51,7 +51,7 @@ namespace TechLibrary.Services
                              (bc.Book.LongDescr != null && bc.Book.LongDescr.ToLower().Contains(searchRequest.SearchString.ToLower()))
                              ||
                              (bc.Book.ISBN != null && bc.Book.ISBN.ToLower().Contains(searchRequest.SearchString.ToLower()))
-                        select bc).ToArrayAsync();
+                        select bc).OrderBy(bc => bc.Book.Title).ToArrayAsync();
 
                 response = CreateResponse(searchRequest, bookCategories);
             }
@@ -67,7 +67,7 @@ namespace TechLibrary.Services
                              (book.LongDescr != null && book.LongDescr.ToLower().Contains(searchRequest.SearchString.ToLower()))
                              ||
                              (book.ISBN != null && book.ISBN.ToLower().Contains(searchRequest.SearchString.ToLower()))
-                        select book).ToArrayAsync();
+                        select book).OrderBy(b => b.Title).ToArrayAsync();
 
 
                 response = CreateResponse(searchRequest, books);
@@ -78,8 +78,7 @@ namespace TechLibrary.Services
                           .Include(c => c.Category)
                           .Include(b => b.Book)
                                         join id in categoryIdSearch on bc.CategoryId equals id
-                                select bc)
-                                .Skip(searchRequest.Skip).Take(searchRequest.RecordsPerPage).ToArrayAsync();
+                                select bc).OrderBy(bc => bc.Book.Title).ToArrayAsync();
 
                 response = CreateResponse(searchRequest, bookCategories);
             }
@@ -89,7 +88,7 @@ namespace TechLibrary.Services
                 var books = await (from book in _dataContext.Books
                          .Include(bc => bc.BookCategories)
                          .ThenInclude(c => c.Category)
-                                   select book).ToArrayAsync();
+                                   select book).OrderBy(b => b.Title).ToArrayAsync();
                 
                 response = CreateResponse(searchRequest, books);
             }

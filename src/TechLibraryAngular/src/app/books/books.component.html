@@ -30,7 +30,7 @@
               <td style="width: 100px; text-align:left">{{category.categoryName}}</td>
               <td style="width: 35px; text-align:center">{{category.count}}</td>
               <td style="text-align:left">
-                <input type="checkbox" [(ngModel)]="category.selected" id="selected" name="selected" class="form-control" />
+                <input type="checkbox" [(ngModel)]="category.selected" id="selected" name="selected" class="form-control" (click)="categoryFilter(category.id)" />
               </td>
             </tr>
           </table>
@@ -68,13 +68,13 @@
         <td style="vertical-align: baseline; padding:20px 0px 0px 20px" >
           <table>
             <tr>
-              <td *ngIf="searchResponse.pageNumbers.length > searchResponse.pages" style=" font-weight:bold; padding: 0px 8px 0px 8px;">
+              <td *ngIf="searchResponse.pageNumbers.length < searchResponse.pages" style=" font-weight:bold; padding: 0px 8px 0px 8px;">
                 <a class="btn btn-primary"  (click)="navigate(1)" >First</a>
               </td>
               <td style=" font-weight:bold; padding: 0px 8px 0px 8px;" *ngFor="let pageNumber of searchResponse.pageNumbers">
                 <a class="btn btn-primary"  (click)="navigate(pageNumber)" >{{pageNumber}}</a>
               </td>
-              <td *ngIf="searchResponse.pageNumbers.length > searchResponse.pages" style=" font-weight:bold; padding: 0px 8px 0px 8px;" >
+              <td *ngIf="searchResponse.pageNumbers.length < searchResponse.pages" style=" font-weight:bold; padding: 0px 8px 0px 8px;" >
                 <a class="btn btn-primary"  (click)="navigate(searchResponse.pages)" >Last</a>
               </td>
             </tr>

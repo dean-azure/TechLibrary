@@ -54,12 +54,6 @@ namespace TechLibrary.Controllers
         {
             _logger.LogInformation("Search all books (PUT)");
 
-            searchRequest = searchRequest ?? new SearchRequest()
-            {
-                NewSearch = true,
-                Page = 1
-            };
-
             var searchResponse = await _searchService.GetBooksAsync(searchRequest);
 
             searchResponse.Books = searchResponse.Books.Select(result => _mapper.Map<BookSearchResponse>(result)).ToArray();
