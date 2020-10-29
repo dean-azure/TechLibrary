@@ -1,10 +1,44 @@
-<table>
+<table style="margin-top:100px;">
   <tr>
-    <td>
-
+    <td style="width:150px;text-align:top; vertical-align:text-top;">&nbsp;</td>
+    <td style="font-weight: bolder;text-align:top;">
+      Title
     </td>
-    <td>
-
+    <td style="font-weight: bolder;text-align:top;">
+      Published
+    </td>
+    <td style="font-weight: bolder;text-align:top;">
+      ISBN
+    </td>
+  </tr>
+  <tr>
+    <td style="text-align:top;">
+      <img src="{{bookEditResponse.thumbnailUrl}}" style="height:125px;width:75px;">
+    </td>
+    <td style="text-align:top;vertical-align:text-top;">
+      {{bookEditResponse.title}}
+    </td>
+    <td style="text-align:top;vertical-align:text-top;">
+      {{bookEditResponse.publishedDate}}
+    </td>
+    <td style="text-align:top;vertical-align:text-top;">
+      {{bookEditResponse.isbn}}
+    </td>
+  </tr>
+  <tr>
+    <td style="font-weight: bolder;text-align:top;vertical-align:text-top;">
+      Short Description
+    </td>
+    <td colspan="3"  style="width:700px; padding-bottom: 50px; text-align:top;vertical-align:text-top;">
+      {{bookEditResponse.shortDescr}}
+    </td>
+  </tr>
+  <tr>
+    <td style="font-weight: bolder;text-align:top;vertical-align:text-top;">
+      Long Description
+    </td>
+    <td colspan="3"  style="width:700px;padding-bottom: 50px;text-align:top;vertical-align:text-top;">
+      {{bookEditResponse.longDescr}}
     </td>
   </tr>
 </table>
