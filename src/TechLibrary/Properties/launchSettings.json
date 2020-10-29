@@ -11,7 +11,8 @@
   "profiles": {
     "TechLibrary": {
       "commandName": "Project",
-      "launchUrl": "weatherforecast",
+      "launchBrowser": true,
+      "launchUrl": "https://localhost:5001/api/books/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

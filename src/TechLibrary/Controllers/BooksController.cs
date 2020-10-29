@@ -13,7 +13,7 @@ using TechLibrary.Contracts.Responses;
 namespace TechLibrary.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/books")]
     public class BooksController : Controller
     {
         private readonly ILogger<BooksController> _logger;
