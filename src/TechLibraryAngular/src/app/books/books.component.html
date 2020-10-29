@@ -75,7 +75,7 @@
                 <a class="btn btn-primary"  (click)="navigate(pageNumber)" >{{pageNumber}}</a>
               </td>
               <td *ngIf="searchResponse.pageNumbers.length > searchResponse.pages" style=" font-weight:bold; padding: 0px 8px 0px 8px;" >
-                <a class="btn btn-primary"  (click)="navigate(1)" >Last</a>
+                <a class="btn btn-primary"  (click)="navigate(searchResponse.pages)" >Last</a>
               </td>
             </tr>
           </table>
